@@ -79,7 +79,6 @@ public class UserMealsUtil {
     public static List<UserMealWithExcess> filteredByCyclesOptional2(List<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> consumedCaloriesPerDay = new HashMap<>();
         List<Callable<Void>> tasks = new ArrayList<>();
-        List<UserMealWithExcess> result = Collections.synchronizedList(new ArrayList<>());
         final List<UserMealWithExcess> res = new CopyOnWriteArrayList<>();
 
         meals.forEach(userMeal -> {
