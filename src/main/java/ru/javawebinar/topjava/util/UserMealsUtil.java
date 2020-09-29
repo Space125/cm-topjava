@@ -119,9 +119,7 @@ public class UserMealsUtil {
                     public BiConsumer<Map<LocalDate, List<UserMeal>>, UserMeal> accumulator() {
                         return ((localDateListMap, userMeal) -> {
                             consumedCaloriesPerDay.merge(userMeal.getDate(), userMeal.getCalories(), Integer::sum);
-                            localDateListMap.merge(userMeal.getDate(), Collections.singletonList(userMeal),
-                                    (first, second) -> Stream.concat(first.stream(), second.stream())
-                                            .collect(Collectors.toList()));
+                            localDateListMap.computeIfAbsent(userMeal.getDate(), k -> new ArrayList<>()).add(userMeal);
                         });
                     }
 
