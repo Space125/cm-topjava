@@ -1,0 +1,48 @@
+.text {
+    font-family: "Tahoma", sans-serif;
+    color: black;
+}
+
+.link {
+    font-family: "Tahoma", sans-serif;
+    font-size: 0.9em;
+}
+
+.header {
+    padding: 5px;
+}
+
+.table {
+    border: none;
+    border-collapse: collapse;
+    font-family: "Tahoma", sans-serif;
+    margin: 25px 0;
+    min-width: 400px;
+    overflow: hidden;
+    font-size: 0.9em;
+    border-radius: 5px 5px 0 0;
+}
+
+.table th {
+    text-align: left;
+    padding: 8px;
+    border-right: 1px solid #64a5a5;
+
+}
+
+.table td {
+    border-bottom: 1px solid #64a5a5;
+    padding: 8px;
+    transition: .3s linear;
+    border-right: 1px solid #64a5a5;
+    border-left: 1px solid #64a5a5;
+}
+
+.table thead tr {
+    background-color: darkslategray;
+    color: aliceblue;
+}
+
+.table tbody tr:last-of-type {
+    border-bottom: 3px solid darkslategrey;
+}
