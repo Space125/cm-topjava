@@ -31,7 +31,7 @@
         <c:set var="excess" value="${meal.excess}"/>
 
         <c:choose>
-            <c:when test="${excess eq false}">
+            <c:when test="${excess eq true}">
                 <tr style="color: red">
                     <td><javatime:format value="${dateTime}" style="MS"/></td>
                     <td><c:out value="${description}"/></td>
