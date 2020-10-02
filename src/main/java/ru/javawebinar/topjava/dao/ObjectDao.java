@@ -1,10 +1,16 @@
 package ru.javawebinar.topjava.dao;
 
-import java.util.List;
+import ru.javawebinar.topjava.model.Meal;
+
+import java.util.Collection;
 
 /**
  * @author Ivan Kurilov on 01.10.2020
  */
 public interface ObjectDao<T> {
-    List<T> getAll();
+    Collection<T> getAll();
+    void save(Meal meal);
+    void update(Meal meal);
+    void delete(Long id);
+    Meal getById(Long id);
 }

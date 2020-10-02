@@ -12,6 +12,9 @@
     <hr>
 </div>
 <h2 class="text"> Meals </h2>
+
+<p class="link"><a href="${pageContext.request.contextPath}/meals?action=create">Add meal</a></p>
+
 <table class="table">
     <thead>
     <tr>
