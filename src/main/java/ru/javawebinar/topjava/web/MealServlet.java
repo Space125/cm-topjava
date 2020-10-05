@@ -63,6 +63,7 @@ public class MealServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String id = req.getParameter("id");
 
+
         if (id != null) {
             log.info("Edit Meal {}", id);
             Meal meal = mealDao.getById(getIdFromResp(req));

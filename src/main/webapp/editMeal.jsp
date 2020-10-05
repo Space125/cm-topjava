@@ -43,14 +43,10 @@
                        value="<c:out value="${meal.calories}"/> "/>
             </td>
         </tr>
-        <tr>
-            <th colspan="2" align="left">
-                <input type="submit" value="Save">
-                <input type="button" value="Cancel">
-            </th>
-        </tr>
+
     </table>
 </form>
-
+<input type="submit" value="Save">
+<a href="meals"> <input type="button" value="Cancel"></a>
 </body>
 </html>
