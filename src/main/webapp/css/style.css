@@ -45,3 +45,7 @@
 .table tbody tr:last-of-type {
     border-bottom: 3px solid darkslategrey;
 }
+
+.th {
+    text-align: left;
+}

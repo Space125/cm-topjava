@@ -6,9 +6,9 @@
     <title>Editing Meals</title>
 </head>
 <body>
-
+<%--@elvariable id="meal" type="ru.javawebinar.topjava.model.Meal"--%>
 <form action="meals" method="post">
-    <table>
+    <table class="table">
         <caption>
             <h2>
                 <c:if test="${meal != null}">
@@ -20,33 +20,34 @@
             </h2>
         </caption>
         <c:if test="${meal != null}">
-            <input type="hidden" name="id" value="<c:out value='${meal.id}'/>"/>
+            <input type="hidden" name="id" value="${meal.id}">
         </c:if>
         <tr>
             <th align="left">Date\Time</th>
             <td>
-                <input type="datetime-local" name="dateTime" size="45"
-                       value="${meal.dateTime}">
+                <input type="datetime-local" name="dateTime"
+                       value="${meal.dateTime}" required>
             </td>
         </tr>
         <tr>
             <th align="left">Description</th>
             <td>
-                <input type="text" name="description" size="45"
-                       value="<c:out value="${meal.description}"/> "/>
+                <input type="text" name="description"
+                       value="${meal.description}" required/>
             </td>
         </tr>
         <tr>
             <th align="left">Calories</th>
             <td>
-                <input type="number" name="calories" size="5"
-                       value="<c:out value="${meal.calories}"/> "/>
+                <input type="number" name="calories"
+                       value="${meal.calories}" required/>
             </td>
         </tr>
-
     </table>
+    <button type="submit">Save</button>
+    <button onclick="window.history.back()" type="button">Cancel</button>
 </form>
-<input type="submit" value="Save">
-<a href="meals"> <input type="button" value="Cancel"></a>
+<%--<input type="submit" value="Save">--%>
+<%--<a href="meals"> <input type="button" value="Cancel"></a>--%>
 </body>
 </html>
