@@ -21,6 +21,8 @@
         <th>Date Time</th>
         <th>Description</th>
         <th>Calories</th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
 
@@ -35,17 +37,37 @@
 
         <c:choose>
             <c:when test="${excess eq true}">
-                <tr style="color: red">
-                    <td><javatime:format value="${dateTime}" style="MS"/></td>
-                    <td><c:out value="${description}"/></td>
-                    <td><c:out value="${calories}"/></td>
+                <tr>
+                    <td style="color: red"><javatime:format value="${dateTime}" style="MS"/></td>
+                    <td style="color: red"><c:out value="${description}"/></td>
+                    <td style="color: red"><c:out value="${calories}"/></td>
+                    <td>
+                        <p class="link"><a
+                                href="${pageContext.request.contextPath}/meals?action=update&id=<c:out value="${meal.id}" /> ">Update</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="link"><a
+                                href="${pageContext.request.contextPath}/meals?action=delete&id=<c:out value="${meal.id}" /> ">Delete</a>
+                        </p>
+                    </td>
                 </tr>
             </c:when>
             <c:otherwise>
-                <tr style="color: green">
-                    <td><javatime:format value="${dateTime}" style="MS"/></td>
-                    <td><c:out value="${description}"/></td>
-                    <td><c:out value="${calories}"/></td>
+                <tr>
+                    <td style="color: green"><javatime:format value="${dateTime}" style="MS"/></td>
+                    <td style="color: green"><c:out value="${description}"/></td>
+                    <td style="color: green"><c:out value="${calories}"/></td>
+                    <td>
+                        <p class="link"><a
+                                href="${pageContext.request.contextPath}/meals?action=update&id=<c:out value="${meal.id}" /> ">Update</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="link"><a
+                                href="${pageContext.request.contextPath}/meals?action=delete&id=<c:out value="${meal.id}" /> ">Delete</a>
+                        </p>
+                    </td>
                 </tr>
             </c:otherwise>
         </c:choose>
