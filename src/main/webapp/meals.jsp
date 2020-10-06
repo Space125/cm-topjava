@@ -4,7 +4,7 @@
 <html lang="ru">
 <head>
     <title>Meals</title>
-    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="header">
@@ -13,7 +13,7 @@
 </div>
 <h2 class="text"> Meals </h2>
 
-<p class="link"><a href="${pageContext.request.contextPath}/meals?action=create">Add meal</a></p>
+<p class="link"><a href="meals?action=create">Add meal</a></p>
 
 <table class="table">
     <thead>
@@ -25,56 +25,22 @@
         <th></th>
     </tr>
     </thead>
-
     <tbody>
     <jsp:useBean id="listMeals" scope="request" type="java.util.List"/>
     <c:forEach items="${listMeals}" var="meal">
-
-        <c:set var="dateTime" value="${meal.dateTime}"/>
-        <c:set var="description" value="${meal.description}"/>
-        <c:set var="calories" value="${meal.calories}"/>
-        <c:set var="excess" value="${meal.excess}"/>
-
-        <c:choose>
-            <c:when test="${excess eq true}">
-                <tr>
-                    <td style="color: red"><javatime:format value="${dateTime}" style="MS"/></td>
-                    <td style="color: red"><c:out value="${description}"/></td>
-                    <td style="color: red"><c:out value="${calories}"/></td>
-                    <td>
-                        <p class="link"><a
-                                href="${pageContext.request.contextPath}/meals?action=update&id=<c:out value="${meal.id}" /> ">Update</a>
-                        </p>
-                    </td>
-                    <td>
-                        <p class="link"><a
-                                href="${pageContext.request.contextPath}/meals?action=delete&id=<c:out value="${meal.id}" /> ">Delete</a>
-                        </p>
-                    </td>
-                </tr>
-            </c:when>
-            <c:otherwise>
-                <tr>
-                    <td style="color: green"><javatime:format value="${dateTime}" style="MS"/></td>
-                    <td style="color: green"><c:out value="${description}"/></td>
-                    <td style="color: green"><c:out value="${calories}"/></td>
-                    <td>
-                        <p class="link"><a
-                                href="${pageContext.request.contextPath}/meals?action=update&id=<c:out value="${meal.id}" /> ">Update</a>
-                        </p>
-                    </td>
-                    <td>
-                        <p class="link"><a
-                                href="${pageContext.request.contextPath}/meals?action=delete&id=<c:out value="${meal.id}" /> ">Delete</a>
-                        </p>
-                    </td>
-                </tr>
-            </c:otherwise>
-        </c:choose>
-
+        <tr style="color:${meal.excess ? 'red' : 'green'}">
+            <td><javatime:format value="${meal.dateTime}" style="MS"/></td>
+            <td><c:out value="${meal.description}"/></td>
+            <td><c:out value="${meal.calories}"/></td>
+            <td>
+                <p class="link"><a href="meals?action=update&id=${meal.id}">Update</a>
+            </td>
+            <td>
+                <p class="link"><a href="meals?action=delete&id=${meal.id}">Delete</a>
+            </td>
+        </tr>
     </c:forEach>
     </tbody>
-
 </table>
 </body>
 </html>

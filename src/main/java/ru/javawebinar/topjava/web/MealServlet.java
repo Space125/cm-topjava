@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import ru.javawebinar.topjava.dao.MealDao;
 import ru.javawebinar.topjava.dao.MealDaoImpl;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.repository.MockMealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.servlet.ServletException;
@@ -27,7 +26,7 @@ public class MealServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        mealDao = new MealDaoImpl(new MockMealRepository());
+        mealDao = new MealDaoImpl();
     }
 
     @Override
@@ -52,7 +51,7 @@ public class MealServlet extends HttpServlet {
             case "all":
             default:
                 log.info("Get all Meals");
-                req.setAttribute("listMeals", MealsUtil.filteredByStreams(mealDao.getAll()));
+                req.setAttribute("listMeals", MealsUtil.filteredByPredicate(mealDao.getAll()));
                 req.getRequestDispatcher(MEALS_LIST).forward(req, resp);
                 break;
         }
@@ -63,23 +62,16 @@ public class MealServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String id = req.getParameter("id");
 
-
-        if (id != null) {
-            log.info("Edit Meal {}", id);
-            Meal meal = mealDao.getById(getIdFromResp(req));
-            mealDao.update(new Meal(meal.getId(), LocalDateTime.parse(req.getParameter("dateTime"))
-                    , req.getParameter("description"), Integer.parseInt(req.getParameter("calories"))));
-        } else {
-            log.info("Create Meal {}", req.getParameterMap());
-            mealDao.save(new Meal(LocalDateTime.parse(req.getParameter("dateTime"))
-                    , req.getParameter("description"), Integer.parseInt(req.getParameter("calories"))));
-        }
-
+        Meal meal = new Meal(id.isEmpty() ? null : Long.valueOf(id),
+                LocalDateTime.parse(req.getParameter("dateTime")),
+                req.getParameter("description"),
+                Integer.parseInt(req.getParameter("calories")));
+        log.info(meal.getId() == null ? "Create Meal {}" : "Update Meal {}", id);
+        mealDao.create(meal);
         resp.sendRedirect("meals");
     }
 
     private long getIdFromResp(HttpServletRequest req) {
         return Long.parseLong(Objects.requireNonNull(req.getParameter("id")));
     }
-
 }
