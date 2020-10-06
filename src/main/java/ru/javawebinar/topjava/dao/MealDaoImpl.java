@@ -16,7 +16,7 @@ public class MealDaoImpl implements MealDao {
     private final Map<Long, Meal> dbMeals = new ConcurrentHashMap<>();
 
     {
-        MealsUtil.MEALS.forEach(this::create);
+        MealsUtil.MEALS.forEach(this::save);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class MealDaoImpl implements MealDao {
     }
 
     @Override
-    public Meal create(Meal meal) {
+    public Meal save(Meal meal) {
         if (meal.getId() == null) {
             meal.setId(counterId.incrementAndGet());
             dbMeals.put(meal.getId(), meal);

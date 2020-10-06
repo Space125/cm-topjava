@@ -36,7 +36,7 @@ public class MealServlet extends HttpServlet {
 
         switch (action == null ? "all" : action) {
             case "delete":
-                long id = getIdFromResp(req);
+                long id = getIdFromRequest(req);
                 log.info("Delete {}", id);
                 mealDao.delete(id);
                 resp.sendRedirect("meals");
@@ -44,14 +44,14 @@ public class MealServlet extends HttpServlet {
             case "create":
             case "update":
                 Meal meal = "create".equals(action) ? null :
-                        mealDao.getById(getIdFromResp(req));
+                        mealDao.getById(getIdFromRequest(req));
                 req.setAttribute("meal", meal);
                 req.getRequestDispatcher(CREATE_OR_EDIT).forward(req, resp);
                 break;
             case "all":
             default:
                 log.info("Get all Meals");
-                req.setAttribute("listMeals", MealsUtil.filteredByPredicate(mealDao.getAll()));
+                req.setAttribute("listMeals", MealsUtil.getMealsTo(mealDao.getAll(), 2000));
                 req.getRequestDispatcher(MEALS_LIST).forward(req, resp);
                 break;
         }
@@ -67,11 +67,11 @@ public class MealServlet extends HttpServlet {
                 req.getParameter("description"),
                 Integer.parseInt(req.getParameter("calories")));
         log.info(meal.getId() == null ? "Create Meal {}" : "Update Meal {}", id);
-        mealDao.create(meal);
+        mealDao.save(meal);
         resp.sendRedirect("meals");
     }
 
-    private long getIdFromResp(HttpServletRequest req) {
+    private long getIdFromRequest(HttpServletRequest req) {
         return Long.parseLong(Objects.requireNonNull(req.getParameter("id")));
     }
 }

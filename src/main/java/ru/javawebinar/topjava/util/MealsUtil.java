@@ -7,8 +7,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.*;
-import java.util.function.Predicate;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MealsUtil {
     private static final int CALORIES_PER_DAY = 2000;
@@ -23,19 +26,21 @@ public class MealsUtil {
             new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410)
     );
 
-    public static List<MealTo> filteredByPredicate(Collection<Meal> meals) {
-        Map<LocalDate, Integer> caloriesSumByDate = new HashMap<>();
-        List<MealTo> mealsTo = new ArrayList<>();
 
-        Predicate<Boolean> predicate = b -> true;
-        for (Meal meal : meals) {
-            caloriesSumByDate.merge(meal.getDateTime().toLocalDate(), meal.getCalories(), Integer::sum);
-            if (TimeUtil.isBetweenHalfOpen(meal.getDateTime().toLocalTime(), LocalTime.MIN, LocalTime.MAX)) {
-                predicate = predicate.and(b -> mealsTo.add(createTo(meal, caloriesSumByDate.get(meal.getDate()) > CALORIES_PER_DAY)));
-            }
-        }
-        predicate.test(true);
-        return mealsTo;
+    public static List<MealTo> getMealsTo(Collection<Meal> meals, int caloriesPerDay) {
+        return filteredByStreams(meals, LocalTime.MIN, LocalTime.MAX, caloriesPerDay);
+    }
+
+    public static List<MealTo> filteredByStreams(Collection<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+        Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
+                .collect(
+                        Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories))
+                );
+
+        return meals.stream()
+                .filter(meal -> TimeUtil.isBetweenHalfOpen(meal.getTime(), startTime, endTime))
+                .map(meal -> createTo(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
+                .collect(Collectors.toList());
     }
 
     private static MealTo createTo(Meal meal, boolean excess) {

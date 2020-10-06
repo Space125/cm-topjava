@@ -9,7 +9,10 @@ import java.util.Collection;
  */
 public interface MealDao {
     Collection<Meal> getAll();
-    Meal create(Meal meal);
+
+    Meal save(Meal meal);
+
     boolean delete(Long id);
+
     Meal getById(Long id);
 }
