@@ -21,7 +21,7 @@ public class MealTestData {
     public static final Meal userMeal6 = new Meal(MEAL_ID + 5, LocalDateTime.of(2020, Month.OCTOBER, 16, 10, 0), "Breakfast", 1000);
     public static final Meal userMeal7 = new Meal(MEAL_ID + 6, LocalDateTime.of(2020, Month.OCTOBER, 16, 12, 0), "Lunch", 500);
     public static final Meal userMeal8 = new Meal(MEAL_ID + 7, LocalDateTime.of(2020, Month.OCTOBER, 16, 18, 0), "Dinner", 500);
-    public static final List<Meal> UserMeals = Arrays.asList(userMeal8, userMeal7, userMeal6, userMeal5, userMeal4, userMeal3, userMeal2, userMeal1);
+    public static final List<Meal> userMeals = Arrays.asList(userMeal8, userMeal7, userMeal6, userMeal5, userMeal4, userMeal3, userMeal2, userMeal1);
 
     public static final Meal adminMeal1 = new Meal(MEAL_ID + 8, LocalDateTime.of(2020, Month.OCTOBER, 15, 12, 0), "Admin Lunch", 2500);
     public static final Meal adminMeal2 = new Meal(MEAL_ID + 9, LocalDateTime.of(2020, Month.OCTOBER, 16, 12, 0), "Admin Lunch", 1500);
