@@ -41,12 +41,17 @@ public class MealServiceTest {
     @Test
     public void get() {
         Meal meal = service.get(MEAL_ID, USER_ID);
-        assertMatch(meal, USER_MEAL1);
+        assertMatch(meal, userMeal1);
     }
 
     @Test
     public void getNotFound() {
         assertThrows(NotFoundException.class, () -> service.get(9999, USER_ID));
+    }
+
+    @Test
+    public void getNotOwner() {
+        assertThrows(NotFoundException.class, () -> service.get(MEAL_ID, ADMIN_ID));
     }
 
     @Test
@@ -61,17 +66,22 @@ public class MealServiceTest {
     }
 
     @Test
+    public void deleteNotOwner() {
+        assertThrows(NotFoundException.class, () -> service.delete(MEAL_ID, ADMIN_ID));
+    }
+
+    @Test
     public void getBetweenInclusive() {
         assertMatch(service.getBetweenInclusive(
-                LocalDate.of(2020, Month.OCTOBER, 15),
-                LocalDate.of(2020, Month.OCTOBER, 15), USER_ID),
-                USER_MEAL4, USER_MEAL3, USER_MEAL2, USER_MEAL1);
+                LocalDate.of(2020, Month.OCTOBER, 16),
+                LocalDate.of(2020, Month.OCTOBER, 16), USER_ID),
+                userMeal8, userMeal7, userMeal6, userMeal5);
     }
 
     @Test
     public void getAll() {
         List<Meal> meals = service.getAll(USER_ID);
-        assertMatch(meals, USER_MEALS);
+        assertMatch(meals, UserMeals);
     }
 
     @Test
@@ -88,6 +98,11 @@ public class MealServiceTest {
     }
 
     @Test
+    public void updateNotOwner() {
+        assertThrows(NotFoundException.class, () -> service.update(userMeal1, ADMIN_ID));
+    }
+
+    @Test
     public void create() {
         Meal newMeal = getNew();
         Meal createdMeal = service.create(newMeal, USER_ID);
@@ -100,7 +115,7 @@ public class MealServiceTest {
     @Test
     public void duplicateDateTimeCreate() {
         Meal meal = getNew();
-        meal.setDateTime(USER_MEAL1.getDateTime());
+        meal.setDateTime(userMeal1.getDateTime());
         assertThrows(DataAccessException.class, () ->
                 service.create(meal, USER_ID));
     }
