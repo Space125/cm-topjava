@@ -28,7 +28,6 @@ public class Meal extends AbstractBaseEntity {
     public static final String GET_BETWEEN = "Meal.getBetween";
     public static final String GET_BY_ID = "Meal.getById";
 
-
     @Column(name = "date_time", nullable = false)
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
@@ -46,6 +45,7 @@ public class Meal extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
     private User user;
 
     public Meal() {
