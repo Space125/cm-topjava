@@ -1,7 +1,6 @@
 package ru.javawebinar.topjava.service;
 
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
@@ -12,14 +11,9 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractServiceTest {
     private static final Logger log = LoggerFactory.getLogger(AbstractServiceTest.class);
-    private static StringBuilder results;
+    private static StringBuilder results = new StringBuilder();
     private static final String RESET = "\033[0m";  // Text Reset
     private static final String GREEN_BOLD = "\033[1;32m";  // GREEN
-
-    @BeforeClass
-    public static void beforeClass(){
-        results = new StringBuilder();
-    };
 
     @Rule
     public Stopwatch stopwatch = new Stopwatch() {
@@ -28,6 +22,7 @@ public abstract class AbstractServiceTest {
             String testMethodName = description.getMethodName();
             String result = String.format("\n" + GREEN_BOLD + "%-25s %-5d ms" + RESET,
                     testMethodName, TimeUnit.NANOSECONDS.toMillis(nanos));
+            log.info(result);
             results.append(result);
         }
     };
@@ -35,5 +30,6 @@ public abstract class AbstractServiceTest {
     @AfterClass
     public static void printResults() {
         log.info(String.valueOf(results));
+        results.setLength(0);
     }
 }
