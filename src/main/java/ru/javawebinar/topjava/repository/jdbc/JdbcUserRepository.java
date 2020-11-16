@@ -87,7 +87,6 @@ public class JdbcUserRepository implements UserRepository {
             mapRoles.computeIfAbsent(rs.getInt("user_id"), userId ->
                     EnumSet.noneOf(Role.class))
                     .add(Role.valueOf(rs.getString("role")));
-
         });
 
         List<User> users = jdbcTemplate.query("SELECT * FROM users ORDER BY name, email", ROW_MAPPER);
@@ -102,7 +101,6 @@ public class JdbcUserRepository implements UserRepository {
                     ps.setInt(1, user.getId());
                     ps.setString(2, argument.name());
                 });
-        System.out.println();
     }
 
     private User setRolesForUser(User user) {
