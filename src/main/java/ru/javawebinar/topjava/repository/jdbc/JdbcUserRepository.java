@@ -48,7 +48,6 @@ public class JdbcUserRepository implements UserRepository {
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(parameterSource);
             user.setId(newKey.intValue());
-            insertBatchRoles(user);
         } else {
             if (namedParameterJdbcTemplate.update("""
                        UPDATE users SET name=:name, email=:email, password=:password, 
@@ -57,8 +56,8 @@ public class JdbcUserRepository implements UserRepository {
                 return null;
             }
             deleteRoles(user);
-            insertBatchRoles(user);
         }
+        insertBatchRoles(user);
         return user;
     }
 
