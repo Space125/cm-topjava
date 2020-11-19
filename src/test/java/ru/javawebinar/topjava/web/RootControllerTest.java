@@ -1,6 +1,6 @@
 package ru.javawebinar.topjava.web;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import ru.javawebinar.topjava.UserTestData;
 
 import static org.hamcrest.Matchers.*;
@@ -9,10 +9,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
 
-class RootControllerTest extends AbstractControllerTest {
+public class RootControllerTest extends AbstractControllerTest {
 
     @Test
-    void getUsers() throws Exception {
+    public void getUsers() throws Exception {
         perform(get("/users"))
                 .andDo(print())
                 .andExpect(status().isOk())
