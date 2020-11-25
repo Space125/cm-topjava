@@ -20,17 +20,20 @@ public class MealRestController extends AbstractMealController {
 
     static final String REST_URL = "/rest/profile/meals";
 
+    @Override
     @GetMapping("/{id}")
     public Meal get(@PathVariable int id) {
         return super.get(id);
     }
 
+    @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         super.delete(id);
     }
 
+    @Override
     @GetMapping
     public List<MealTo> getAll() {
         return super.getAll();
@@ -54,6 +57,7 @@ public class MealRestController extends AbstractMealController {
         super.update(meal, id);
     }
 
+    @Override
     @GetMapping("/filter")
     public List<MealTo> getBetween(@RequestParam @Nullable LocalDate startDate,
                                    @RequestParam @Nullable LocalTime startTime,
