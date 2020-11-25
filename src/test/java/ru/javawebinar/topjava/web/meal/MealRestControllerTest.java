@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.TestUtil;
 import ru.javawebinar.topjava.model.Meal;
@@ -89,7 +90,7 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void filterBetween() throws Exception {
-        LinkedMultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
         requestParams.add("startDate", "2020-01-31");
         requestParams.add("startTime", "06:00");
         requestParams.add("endDate", "2020-01-31");
