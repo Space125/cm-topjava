@@ -26,13 +26,12 @@ import static ru.javawebinar.topjava.util.MealsUtil.createTo;
 import static ru.javawebinar.topjava.util.MealsUtil.getTos;
 import static ru.javawebinar.topjava.web.json.JsonUtil.writeValue;
 
-
 class MealRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = MealRestController.REST_URL + "/";
 
     @Autowired
-    MealService mealService;
+    private MealService mealService;
 
     @Test
     void get() throws Exception {
