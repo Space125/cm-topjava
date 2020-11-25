@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.LinkedMultiValueMap;
 import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.TestUtil;
 import ru.javawebinar.topjava.model.Meal;
@@ -88,10 +89,25 @@ class MealRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getBetween() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "filter?startDateTime=2020-01-31T06:00:00&endDateTime=2020-01-31T13:00:00"))
+    void filterBetween() throws Exception {
+        LinkedMultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
+        requestParams.add("startDate", "2020-01-31");
+        requestParams.add("startTime", "06:00");
+        requestParams.add("endDate", "2020-01-31");
+        requestParams.add("endTime", "13:00");
+
+        perform(MockMvcRequestBuilders.get(REST_URL + "filter")
+                .params(requestParams))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MEAL_TO_MATCHER.contentJson(List.of(createTo(meal5, true))));
+    }
+
+    @Test
+    void filterAll() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "filter?startDate=&endTime="))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MEAL_TO_MATCHER.contentJson(getTos(meals, user.getCaloriesPerDay())));
     }
 }
