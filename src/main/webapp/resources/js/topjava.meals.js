@@ -32,7 +32,22 @@ $(function () {
                     "asc"
                 ]
             ]
-        })
+        }),
+        updateTable: updateFilteredTable
     };
     makeEditable();
 });
+
+
+function updateFilteredTable() {
+    $.ajax({
+        type: "GET",
+        url: "profile/meals/filter",
+        data: $("#filter").serialize()
+    }).done(updateTableWithData)
+}
+
+function clearFilter() {
+    $("#filter")[0].reset();
+    $.get("profile/meals/", updateTableWithData)
+}

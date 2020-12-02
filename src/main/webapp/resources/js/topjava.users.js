@@ -1,4 +1,4 @@
-var ctx;
+let ctx;
 
 // $(document).ready(function () {
 $(function () {
@@ -39,7 +39,10 @@ $(function () {
                     "asc"
                 ]
             ]
-        })
+        }),
+        updateTable: function () {
+            $.get(ctx.ajaxUrl, updateTableWithData)
+        }
     };
     makeEditable();
 });
