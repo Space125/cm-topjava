@@ -56,4 +56,12 @@ public class AdminRestController extends AbstractUserController {
     public User getByMail(@RequestParam String email) {
         return super.getByMail(email);
     }
+
+    @Override
+    //https://developer.mozilla.org/ru/docs/Web/HTTP/Methods/PATCH
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void enable(@RequestParam boolean enabled, @PathVariable int id) {
+        super.enable(enabled, id);
+    }
 }

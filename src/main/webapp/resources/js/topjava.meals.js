@@ -38,7 +38,6 @@ $(function () {
     makeEditable();
 });
 
-
 function updateFilteredTable() {
     $.ajax({
         type: "GET",

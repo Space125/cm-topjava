@@ -46,3 +46,18 @@ $(function () {
     };
     makeEditable();
 });
+
+//https://jquery-docs.ru/is/
+//https://jquery-docs.ru/closest/
+function enable(checked, id) {
+    let enable = checked.is(":checked")
+
+    $.ajax({
+        type: "POST",
+        url: ctx.ajaxUrl + id,
+        data: "enabled=" + enable
+    }).done(function () {
+        checked.closest("tr").attr("data-UserEnabled", enable)
+        successNoty(enable ? "Enabled" : "Disabled")
+    })
+}
