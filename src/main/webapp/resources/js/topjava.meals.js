@@ -49,5 +49,5 @@ function updateFilteredTable() {
 
 function clearFilter() {
     $("#filter")[0].reset();
-    $.get("profile/meals/", updateTableWithData)
+    $.get(ctx.ajaxUrl, updateTableWithData)
 }
