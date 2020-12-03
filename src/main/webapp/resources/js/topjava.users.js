@@ -61,6 +61,7 @@ function enable(checkbox, id) {
         checkbox.closest("tr").attr("data-UserEnabled", enable)
         successNoty(enable ? "Enabled" : "Disabled")
     }).fail(function () {
+        successNoty("Ohh!! Something went wrong...")
         $(checkbox).prop("checked", !enable)
     })
 }
