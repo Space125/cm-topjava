@@ -49,15 +49,18 @@ $(function () {
 
 //https://jquery-docs.ru/is/
 //https://jquery-docs.ru/closest/
-function enable(checked, id) {
-    let enable = checked.is(":checked")
+//https://basicweb.ru/jquery/jquery_deferred_fail.php
+function enable(checkbox, id) {
+    let enable = checkbox.is(":checked")
 
     $.ajax({
         type: "POST",
         url: ctx.ajaxUrl + id,
         data: "enabled=" + enable
     }).done(function () {
-        checked.closest("tr").attr("data-UserEnabled", enable)
+        checkbox.closest("tr").attr("data-UserEnabled", enable)
         successNoty(enable ? "Enabled" : "Disabled")
+    }).fail(function () {
+        $(checkbox).prop("checked", !enable)
     })
 }

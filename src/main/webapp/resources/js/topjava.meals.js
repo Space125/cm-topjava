@@ -41,7 +41,7 @@ $(function () {
 function updateFilteredTable() {
     $.ajax({
         type: "GET",
-        url: "profile/meals/filter",
+        url: ctx.ajaxUrl + "filter",
         data: $("#filter").serialize()
     }).done(updateTableWithData)
 }
