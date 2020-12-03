@@ -44,7 +44,7 @@ $(function () {
             $.get(ctx.ajaxUrl, updateTableWithData)
         }
     };
-    makeEditable();
+    makeEditable()
 });
 
 //https://jquery-docs.ru/is/
