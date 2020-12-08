@@ -45,7 +45,7 @@ public class Meal extends AbstractBaseEntity {
 
     @Column(name = "calories", nullable = false)
     @Range(min = 10, max = 5000)
-    @NotNull(message = "shouldn't is empty")
+    @NotNull
     private Integer calories;
 
     @ManyToOne(fetch = FetchType.LAZY)

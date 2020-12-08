@@ -19,7 +19,6 @@ class RootControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("users"))
                 .andExpect(forwardedUrl("/WEB-INF/jsp/users.jsp"));
-
     }
 
     @Test

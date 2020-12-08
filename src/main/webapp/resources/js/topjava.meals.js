@@ -65,24 +65,50 @@ $(function () {
     makeEditable();
 });
 
-$('#startDate').datetimepicker({
+//https://xdsoft.net/jqplugins/datetimepicker/
+//Range between date#
+let startDate = $('#startDate')
+let endDate = $('#endDate')
+startDate.datetimepicker({
     timepicker: false,
-    format: "Y-m-d"
+    format: "Y-m-d",
+    onShow: function () {
+        this.setOptions({
+            maxDate: endDate.val() || false
+        })
+    }
 })
 
-$('#endDate').datetimepicker({
+endDate.datetimepicker({
     timepicker: false,
-    format: "Y-m-d"
+    format: "Y-m-d",
+    onShow: function () {
+        this.setOptions({
+            minDate: startDate.val() || false
+        })
+    }
 })
 
-$('#startTime').datetimepicker({
+let startTime = $('#startTime')
+let endTime = $('#endTime')
+startTime.datetimepicker({
     datepicker: false,
-    format: "H:i"
+    format: "H:i",
+    onShow: function () {
+        this.setOptions({
+            maxTime: endTime.val() || false
+        })
+    }
 })
 
-$('#endTime').datetimepicker({
-    datetimepicker: false,
-    format: "H:i"
+endTime.datetimepicker({
+    datepicker: false,
+    format: "H:i",
+    onShow: function () {
+        this.setOptions({
+            minTime: startTime.val() || false
+        })
+    }
 })
 
 $('#dateTime').datetimepicker({
