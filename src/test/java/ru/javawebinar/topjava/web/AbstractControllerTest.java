@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assumptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
@@ -19,6 +20,7 @@ import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.util.exception.ErrorType;
 
 import javax.annotation.PostConstruct;
+import java.util.Locale;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -50,6 +52,9 @@ public abstract class AbstractControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Autowired
+    private MessageSourceAccessor msa;
+
     public void assumeDataJpa() {
         Assumptions.assumeTrue(env.acceptsProfiles(org.springframework.core.env.Profiles.of(Profiles.DATAJPA)), "DATA-JPA only");
     }
@@ -69,5 +74,9 @@ public abstract class AbstractControllerTest {
 
     public ResultMatcher errorType(ErrorType errorType) {
         return jsonPath("$.type", Matchers.is(errorType.name()));
+    }
+
+    public ResultMatcher detailMessage(String errorDuplicate) {
+        return jsonPath("$.details").value(msa.getMessage(errorDuplicate, Locale.ENGLISH));
     }
 }

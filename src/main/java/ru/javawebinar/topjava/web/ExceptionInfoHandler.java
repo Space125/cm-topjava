@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,6 +23,7 @@ import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 import static ru.javawebinar.topjava.util.exception.ErrorType.*;
 
@@ -29,6 +31,20 @@ import static ru.javawebinar.topjava.util.exception.ErrorType.*;
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
 public class ExceptionInfoHandler {
     private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
+
+    public static final String USER_DUPLICATE_EMAIL = "user.exception.duplicateEmail";
+    public static final String MEAL_DUPLICATE_DATETIME = "meal.exception.duplicateDateTime";
+
+    public static final Map<String, String> DATABASE_CONSTRAINTS_I18N = Map.of(
+            "meals_unique_user_datetime_idx", MEAL_DUPLICATE_DATETIME,
+            "users_unique_email_idx", USER_DUPLICATE_EMAIL
+    );
+
+    private final MessageSourceAccessor msa;
+
+    public ExceptionInfoHandler(MessageSourceAccessor msa) {
+        this.msa = msa;
+    }
 
     //  http://stackoverflow.com/a/22358422/548473
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -40,6 +56,17 @@ public class ExceptionInfoHandler {
     @ResponseStatus(HttpStatus.CONFLICT)  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
+        String rootMessage = ValidationUtil.getRootCause(e).getMessage();
+        if (rootMessage != null) {
+            rootMessage = rootMessage.toLowerCase();
+            for (Map.Entry<String, String> pair : DATABASE_CONSTRAINTS_I18N.entrySet()) {
+                if (rootMessage.contains(pair.getKey())) {
+                    return logAndGetErrorInfo(req,
+                            new DataIntegrityViolationException(msa.getMessage(pair.getValue())),
+                            true, VALIDATION_ERROR);
+                }
+            }
+        }
         return logAndGetErrorInfo(req, e, true, DATA_ERROR);
     }
 
@@ -77,6 +104,6 @@ public class ExceptionInfoHandler {
             log.warn("{} at request  {}: {}", errorType, req.getRequestURL(), rootCause.toString());
         }
         return new ErrorInfo(req.getRequestURL(), errorType,
-                details.length > 1 ? details : new String[]{rootCause.getLocalizedMessage()});
+                details.length > 0 ? details : new String[]{ValidationUtil.getLocalizedMessage(e)});
     }
 }
