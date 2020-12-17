@@ -95,7 +95,7 @@ function successNoty(key) {
 
 function failNoty(jqXHR) {
     closeNoty();
-    var errorInfo = JSON.parse(jqXHR.responseText);
+    var errorInfo = jqXHR.responseJSON;
     failedNote = new Noty({
         text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n["common.errorStatus"] + ": " + jqXHR.status +
             "<br>" + errorInfo.type + "<br>" + errorInfo.details.join("<br>"),

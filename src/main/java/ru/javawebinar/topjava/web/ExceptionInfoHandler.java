@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +34,7 @@ public class ExceptionInfoHandler {
     public static final String USER_DUPLICATE_EMAIL = "user.exception.duplicateEmail";
     public static final String MEAL_DUPLICATE_DATETIME = "meal.exception.duplicateDateTime";
 
-    public static final Map<String, String> DATABASE_CONSTRAINTS_I18N = Map.of(
+    private static final Map<String, String> DATABASE_CONSTRAINTS_I18N = Map.of(
             "meals_unique_user_datetime_idx", MEAL_DUPLICATE_DATETIME,
             "users_unique_email_idx", USER_DUPLICATE_EMAIL
     );
@@ -61,9 +60,7 @@ public class ExceptionInfoHandler {
             rootMessage = rootMessage.toLowerCase();
             for (Map.Entry<String, String> pair : DATABASE_CONSTRAINTS_I18N.entrySet()) {
                 if (rootMessage.contains(pair.getKey())) {
-                    return logAndGetErrorInfo(req,
-                            new DataIntegrityViolationException(msa.getMessage(pair.getValue())),
-                            true, VALIDATION_ERROR);
+                    return logAndGetErrorInfo(req, e,true, VALIDATION_ERROR, msa.getMessage(pair.getValue()));
                 }
             }
         }
@@ -71,10 +68,9 @@ public class ExceptionInfoHandler {
     }
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
-    public ErrorInfo validationError(HttpServletRequest req, Exception e) {
-        BindingResult result = e instanceof BindException ?
-                ((BindException) e).getBindingResult() : ((MethodArgumentNotValidException) e).getBindingResult();
+    @ExceptionHandler(BindException.class)
+    public ErrorInfo validationError(HttpServletRequest req, BindException e) {
+        BindingResult result =  e.getBindingResult();
 
         String[] details = result.getFieldErrors().stream()
                 .map(fe -> String.format("[%s] %s", fe.getField(), fe.getDefaultMessage()))

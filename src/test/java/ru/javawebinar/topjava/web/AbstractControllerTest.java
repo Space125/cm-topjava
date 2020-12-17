@@ -39,6 +39,8 @@ public abstract class AbstractControllerTest {
 
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
 
+    private static final Locale LOCALE_RU = new Locale("ru");
+
     @Autowired
     public Environment env;
 
@@ -77,6 +79,6 @@ public abstract class AbstractControllerTest {
     }
 
     public ResultMatcher detailMessage(String errorDuplicate) {
-        return jsonPath("$.details").value(msa.getMessage(errorDuplicate, Locale.ENGLISH));
+        return jsonPath("$.details").value(msa.getMessage(errorDuplicate, LOCALE_RU));
     }
 }

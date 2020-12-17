@@ -93,6 +93,17 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void registerInvalid() throws Exception {
+        UserTo registerUpdate = new UserTo(null, "newUser", null, null, 9);
+        perform(MockMvcRequestBuilders.post(REST_URL + "/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(registerUpdate)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(errorType(VALIDATION_ERROR));
+    }
+
+    @Test
     void updateInvalid() throws Exception {
         UserTo updateUser = new UserTo(null, null, null, null, 2000);
         perform(MockMvcRequestBuilders.put(REST_URL)
@@ -107,7 +118,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     @Test
     @Transactional(propagation = Propagation.NEVER)
     void registerDuplicateEmail() throws Exception {
-        UserTo registeredUser = new UserTo(null, "newName", "admin@gmail.com", "somePassword", 2000);
+        UserTo registeredUser = new UserTo(null, "newName", admin.getEmail(), "somePassword", 2000);
         perform(MockMvcRequestBuilders.post(REST_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(registeredUser)))
@@ -120,7 +131,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     @Test
     @Transactional(propagation = Propagation.NEVER)
     void updateDuplicateEmail() throws Exception {
-        UserTo updateUser = new UserTo(null, "User", "admin@gmail.com", "password", 2000);
+        UserTo updateUser = new UserTo(null, "User", admin.getEmail(), "password", 2000);
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .with(userHttpBasic(user))
                 .contentType(MediaType.APPLICATION_JSON)
