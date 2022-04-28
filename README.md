@@ -1,4 +1,4 @@
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/97f441c15a4c436ca34b00e6a848a71e)](https://www.codacy.com/gh/Space125/cm-topjava/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Space125/cm-topjava&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c5615985a5464592bda987bc0cd398f0)](https://app.codacy.com/gh/Space125/topjava?utm_source=github.com&utm_medium=referral&utm_content=Space125/topjava&utm_campaign=Badge_Grade_Settings)
 [![Build Status](https://travis-ci.org/Space125/cm-topjava.svg?branch=master)](https://travis-ci.org/Space125/cm-topjava)
 
 Java Enterprise Online Project 
